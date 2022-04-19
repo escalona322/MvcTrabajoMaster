@@ -1,20 +1,138 @@
-﻿<h1>
-    Detalles torneo
-</h1>
+﻿@model List<VistaApuntadosTorneo>
+@{
+    Torneo torneo = (Torneo)ViewData["TORNEO"];
+}
 <div class="row">
-    <div class="col-1">
+    <img src="~/images/@torneo.Foto" height="300" class="card-img-top" />
+</div>
+<div class="row my-5">
+    <div class="col">
+
     </div>
-    <div class="col-5">
-        @{
-            Torneo torneo = (Torneo)ViewData["TORNEO"];
+    <div class="col">
+        <a class="btn btn-info"
+           asp-controller="Apuntados"
+           asp-action="ListaApuntadosTorneo"
+           asp-route-idtorneo="@torneo.IdTorneo">
+            Ver Apuntados
+        </a>
+    </div>
+    <div class="col">
+        <a class="btn btn-primary"
+           asp-controller="Apuntados"
+           asp-action="NuevoApuntado"
+           asp-route-idtorneo="@torneo.IdTorneo">
+            Apuntarse
+        </a>
+    </div>
+    <div class="col">
+
+
+    </div>
+</div>
+<div class="row" style="height: 60em;background-color: lightyellow;">
+    <div class="col">
+        <div class="container">
+            <div class="row">
+                <h1>@torneo.Nombre</h1>
+            </div>
+            <div class="row">
+                <h3>Region: @torneo.Region | Tipo: @torneo.Tipo</h3>
+            </div>
+            <div class="row">
+                <h3> Fecha: @torneo.Fecha.ToString().Substring(0, 11) | Apuntados: @torneo.Napuntados</h3>
+            </div>
+            <div class="row">
+                <h4>Link: <a href="@torneo.Link">@torneo.Link</a></h4>
+            </div>
+            <div class="row" style="height: 20em; overflow: scroll; overflow-x: hidden;">
+                <span>@torneo.Descripcion</span>
+            </div>
+            <div class="row" style="height: 20em; overflow: scroll; overflow-x: hidden;">
+                <span>@torneo.Normas</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col" style="height: 60em; overflow: scroll;overflow-x: hidden; background-color: orangered ">
+        <div style="background-color: darksalmon" class="text-center">
+            <h1>Lista Apuntados</h1>
+        </div>
+        @foreach (VistaApuntadosTorneo vista in Model)
+        {
+
+            @if (vista.Posicion % 2 == 0)
+            {
+                <div class="row" style="background-color: lightgreen">
+                    <div class="col my-3">
+
+                        <span style="font-weight: bold">
+                            @if (vista.Equipo != null)
+                            {
+                                <span style="color:dimgrey">@vista.Equipo | </span>
+                            }
+
+                            <span>@vista.Nick</span>
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Puesto: @vista.Puesto
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Record: @vista.Record
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Seed: @vista.Seed
+                        </span>
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row" style="background-color: lightblue">
+                    <div class="col my-3">
+
+                        <span style="font-weight: bold">
+                            @if (vista.Equipo != null)
+                            {
+                                <span style="color:dimgrey">@vista.Equipo | </span>
+                            }
+
+                            <span>@vista.Nick</span>
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Puesto: @vista.Puesto
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Record: @vista.Record
+                        </span>
+
+                    </div>
+                    <div class="col my-3">
+                        <span style="font-weight: bold">
+                            Seed: @vista.Seed
+                        </span>
+
+                    </div>
+                </div>
+
+            }
+
         }
-        <h1>@torneo.Nombre<h1>
-
-    </div>
-    <div class="col-5">
-
-    </div>
-    <div class="col-1">
-
     </div>
 </div>

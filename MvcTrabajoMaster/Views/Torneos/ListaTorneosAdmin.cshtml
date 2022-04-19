@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-2">
             <a asp-controller="Torneos"
-               asp-action="ListaTorneos"
+               asp-action="ListaTorneosAdmin"
                asp-route-posicion="1"
                class="btn btn-danger">
                 <<
@@ -19,7 +19,7 @@
         </div>
         <div class="col-2">
             <a asp-controller="Torneos"
-               asp-action="ListaTorneos"
+               asp-action="ListaTorneosAdmin"
                asp-route-posicion="@anterior"
                class="btn btn-warning">
                 <
@@ -32,7 +32,7 @@
         </div>
         <div class="col-2">
             <a asp-controller="Torneos"
-               asp-action="ListaTorneos"
+               asp-action="ListaTorneosAdmin"
                asp-route-posicion="@siguiente"
                class="btn btn-warning mx-5">
                 >
@@ -40,7 +40,7 @@
         </div>
         <div class="col-2">
             <a asp-controller="Torneos"
-               asp-action="ListaTorneos"
+               asp-action="ListaTorneosAdmin"
                asp-route-posicion="@ultpos"
                class="btn btn-success">
                 >>
@@ -50,6 +50,20 @@
 
 
 
+    </div>
+    <div class="row text-center">
+        <a asp-controller="Home"
+           asp-action="VistaAdmin"
+           class="btn btn-danger form-control">
+            Volver
+        </a>
+    </div>
+    <div class="row my-3">
+        <a asp-controller="Torneos"
+           asp-action="NuevoTorneo"
+           class="btn btn-info form-control">
+            Nuevo Torneo
+        </a>
     </div>
     <div class="row my-5">
         @foreach (VistaTorneo torneo in Model)
@@ -66,29 +80,36 @@
                             <div class="col">
                                 <a class="btn btn-primary"
                                    asp-controller="Torneos"
-                                   asp-action="DetallesTorneo"
+                                   asp-action="EditarTorneo"
                                    asp-route-idtorneo="@torneo.IdTorneo">
-                                    Detalles torneo
+                                    Editar Torneo
                                 </a>
                             </div>
                             <div class="col">
-                                <a class="btn btn-danger"
-                                   asp-controller="Apuntados"
-                                   asp-action="ListaApuntadosTorneo"
+                                <a class="btn btn-primary"
+                                   asp-controller="Torneos"
+                                   asp-action="EliminarTorneo"
                                    asp-route-idtorneo="@torneo.IdTorneo">
-                                    Ver apuntados
+                                    Eliminar torneo
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="btn btn-primary"
                                    asp-controller="Apuntados"
-                                   asp-action="NuevoApuntado"
+                                   asp-action="ListaApuntadosAdmin"
                                    asp-route-idtorneo="@torneo.IdTorneo">
-                                    Apuntarse
+                                    Ver apuntados
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a class="btn btn-success"
+                                   asp-controller="Sets"
+                                   asp-action="NuevoSet"
+                                   asp-route-idtorneo="@torneo.IdTorneo">
+                                    Insertar Set
                                 </a>
                             </div>
                         </div>
-
 
                     </div>
                 </div>

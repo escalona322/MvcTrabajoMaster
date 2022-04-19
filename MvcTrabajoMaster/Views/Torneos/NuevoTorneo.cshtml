@@ -1,7 +1,7 @@
 ﻿
-    
-  
-<form method="post" class="form-group align-content-center">
+
+
+<form method="post" enctype="multipart/form-data" class="form-group align-content-center">
 
     <div class="input-group my-2">
         <label class="input-group-text">Nombre: </label>
@@ -25,7 +25,7 @@
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Normas: </label>
-        <textarea type="text" name="normas" height="40" class="form-control" ></textarea>
+        <textarea type="text" name="normas" height="40" class="form-control"></textarea>
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Tipo: </label>
@@ -34,6 +34,10 @@
     <div class="input-group my-2">
         <label class="input-group-text">Link: </label>
         <input type="text" name="link" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Foto: </label>
+        <input type="file" name="foto" class="form-control" />
     </div>
     <button type="submit" class="btn btn-outline-info form-control">
         Enviar

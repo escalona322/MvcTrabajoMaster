@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<form method="post" class="form-group align-content-center">
+    <div class="input-group my-2">
+        <label class="input-group-text">Nick: </label>
+        <input type="text" name="nick" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Region: </label>
+        <input type="text" name="region" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Nombre: </label>
+        <input type="text" name="nombre" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Email: </label>
+        <input type="text" name="email" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Password: </label>
+        <input type="text" name="password" class="form-control" />
+    </div>
+    <div class="input-group my-2">
+
+
+        <input type="hidden" name="rol" value="Jugador" />
+
+
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Equipo: </label>
+        <input type="text" name="equipo" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-outline-info form-control">
+        Enviar
+    </button>
+</form>

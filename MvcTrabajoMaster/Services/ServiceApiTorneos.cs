@@ -1,9 +1,11 @@
-﻿using NuggetModelsPryectoJalt;
+﻿using Newtonsoft.Json;
+using NuggetModelsPryectoJalt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MvcTrabajoMaster.Services
@@ -101,16 +103,40 @@ namespace MvcTrabajoMaster.Services
             return torneos;
         }
 
-        public async Task InsertTorneoAsync(int idtorneo, string nombre, string region, DateTime fecha, int napuntados,
-            string descripcion, string normas, string tipo, string link, string foto)
+        public async Task InsertTorneoAsync(Torneo torneo)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Torneo/InsertTorneo";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(torneo);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
-        public async Task UpdateTorneoAsync(int idtorneo, string nombre, string region, DateTime fecha, int napuntados,
-            string descripcion, string normas, string tipo, string link, string foto)
+        public async Task UpdateTorneoAsync(Torneo torneo)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Torneo/UpdateTorneo";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(torneo);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+            }
         }
 
         public async Task<int> GetTorneoMaxIdAsync()
@@ -124,12 +150,33 @@ namespace MvcTrabajoMaster.Services
 
         public async Task SumarApuntadoAsync(int idtorneo)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Torneo/SumarApuntado/"+idtorneo;
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject("");
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PutAsync(request, content);
+            }
         }
 
         public async Task DeleteTorneo(int idtorneo)
         {
-
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Torneos/DeleteTorneo/" + idtorneo;
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                HttpResponseMessage response =
+                    await client.DeleteAsync(request);
+            }
         }
         public async Task<List<Torneo>> GetTorneosByIdJugadorAsync(int idjugador)
         {
@@ -169,14 +216,40 @@ namespace MvcTrabajoMaster.Services
             return set;
         }
 
-        public async Task InsertSetAsync(int idset, int ap1, int ap2, int apganador, string resultado, string ronda, int idtorneo)
+        public async Task InsertSetAsync(Set set)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Sets/InsertSet";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(set);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
-        public async Task UpdateSetAsync(int idset, int ap1, int ap2, int apganador, string resultado, string ronda, int idtorneo)
+        public async Task UpdateSetAsync(Set set)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Sets/UpdateSet";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(set);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
         public async Task<int> GetSetMaxIdAsync()
         {
@@ -207,7 +280,20 @@ namespace MvcTrabajoMaster.Services
 
         public async Task DeleteSetAsync(int idset)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Sets/DeleteSet/"+idset;
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject("");
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.DeleteAsync(request);
+            }
         }
         #endregion
 
@@ -265,19 +351,58 @@ namespace MvcTrabajoMaster.Services
             return apuntado;
         }
 
-        public async Task InsertApuntadoAsync(int idinscripcion, int idtorneo, int idjugador, int puesto, string record, int seed)
+        public async Task InsertApuntadoAsync(Apuntado apuntado)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Apuntados/InsertApuntado";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(apuntado);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
         public async Task DeleteApuntadoAsync(int idinscripcion)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Apuntados/DeleteApuntado/"+idinscripcion;
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject("");
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.DeleteAsync(request);
+            }
         }
 
-        public async Task UpdateApuntadoAsync(int idinscripcion, int idtorneo, int idjugador, int puesto, string record, int seed)
+        public async Task UpdateApuntadoAsync(Apuntado apuntado)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Apuntados/UpdateApuntado";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject(apuntado);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
         public async Task<int> GetApuntadoMaxIdAsync()
@@ -320,7 +445,20 @@ namespace MvcTrabajoMaster.Services
 
         public async Task DeleteJugador(int idjugador)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Apuntados/DeleteApuntado/"+idjugador;
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
 
+                string json = JsonConvert.SerializeObject("");
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.DeleteAsync(request);
+            }
         }
 
         public async Task<Jugador> GetJugadorByIdAsync(int idjugador)
@@ -332,18 +470,42 @@ namespace MvcTrabajoMaster.Services
             return jugador;
         }
 
-        public async Task InsertJugador(int idjugador, string nick, string region,
-                string nombre, string email, string password,
-                string rol, string equipo)
+        public async Task InsertJugador(Jugador jugador)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Jugador/InsertJugador";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add("Authorization", "bearer ");
 
+                string json = JsonConvert.SerializeObject(jugador);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
-        public async Task UpdateJugador(int idjugador, string nick, string region,
-             string nombre, string email, string password,
-             string rol, string equipo)
+        public async Task UpdateJugador(Jugador jugador)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/Jugador/UpdateJugador";
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add("Authorization", "bearer ");
 
+                string json = JsonConvert.SerializeObject(jugador);
+
+                StringContent content = new StringContent
+                    (json, Encoding.UTF8, "application/json");
+                HttpResponseMessage response =
+                    await client.PostAsync(request, content);
+            }
         }
 
         public async Task<Jugador> ExisteJugadorAsync(string email, string password)

@@ -1,0 +1,46 @@
+﻿@model List<VistaSetFormateado>
+@if (Model.Count == 0)
+{
+    <h1>No hay sets registrados de este apuntado</h1>
+    <a class="btn btn-primary"
+       asp-controller="Torneos"
+       asp-action="ListaTorneos">
+        Volver
+    </a>
+}
+else
+{
+    @foreach (VistaSetFormateado set in @Model)
+    {
+        <div class="row my-3 border border-danger">
+            <div class="col my-3">
+                <span style="font-size: 1.20em; font-weight: bold; color:green">
+                    Ronda: @set.Ronda
+                </span>
+            </div>
+            <div class="col my-3">
+
+                <span style="font-size: 1.20em; font-weight: bold">
+                    | @set.Nick1 <span style="color:red; font-weight:bold">VS</span> @set.Nick2 |
+                </span>
+            </div>
+            <div class="col my-3">
+                <span style="font-size:1.20em; font-weight:bold; color: limegreen"> Ganador: @set.NickGanador</span>
+            </div>
+            <div class="col my-3">
+                <span style="font-size:1.20em; font-weight:bold">
+                    | Resultado: @set.Resultado |
+                </span>
+            </div>
+            <div class="col my-3">
+                <a class="btn btn-outline-danger"
+                   asp-controller="Apuntados"
+                   asp-action="ListaApuntadosTorneo"
+                   asp-route-idtorneo="@set.IdTorneo">
+                    Volver
+                </a>
+
+            </div>
+        </div>
+    }
+}

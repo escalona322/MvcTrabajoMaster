@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-2">
         <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
+           asp-action="ListaJugadoresAdmin"
            asp-route-posicion="1"
            class="btn btn-danger">
             <<
@@ -18,7 +18,7 @@
     </div>
     <div class="col-2">
         <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
+           asp-action="ListaJugadoresAdmin"
            asp-route-posicion="@anterior"
            class="btn btn-warning">
             <
@@ -31,7 +31,7 @@
     </div>
     <div class="col-2">
         <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
+           asp-action="ListaJugadoresAdmin"
            asp-route-posicion="@siguiente"
            class="btn btn-warning mx-5">
             >
@@ -39,12 +39,27 @@
     </div>
     <div class="col-2">
         <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
+           asp-action="ListaJugadoresAdmin"
            asp-route-posicion="@ultimapos"
            class="btn btn-success">
             >>
         </a>
     </div>
+</div>
+<div class="row text-center">
+    <a asp-controller="Home"
+       asp-action="VistaAdmin"
+       class="btn btn-danger form-control">
+        Volver
+    </a>
+</div>
+<div>
+    <a asp-controller="Jugadores"
+       asp-action="NuevoJugador"
+       class="btn btn-info form-control">
+        Nuevo Jugador
+
+    </a>
 </div>
 
 @foreach (VistaJugadores jug in @Model)
@@ -73,11 +88,16 @@
         <div class="col-1 my-3">
             <a class="btn btn-outline-danger"
                asp-controller="Jugadores"
-               asp-action="PerfilJugador"
+               asp-action="EliminarJugador"
                asp-route-idjugador="@jug.IdJugador">
-                Perfil
+                Eliminar
             </a>
-
+            <a class="btn btn-outline-danger"
+               asp-controller="Jugadores"
+               asp-action="EditarJugador"
+               asp-route-idjugador="@jug.IdJugador">
+                Editar
+            </a>
         </div>
     </div>
 }

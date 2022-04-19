@@ -1,4 +1,8 @@
 ﻿@model List<VistaApuntadosTorneo>
+@{
+    string ronda = (string)ViewData["RONDA"];
+    string resultado = (string)ViewData["RESULTADO"];
+}
 <form method="post" class="form-group align-content-center">
     <div class="input-group my-2">
         <label class="input-group-text">Jugador 1</label>
@@ -37,11 +41,11 @@
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Resultado: </label>
-        <input type="text" name="resultado" class="form-control" />
+        <input type="text" name="resultado" class="form-control" value="@resultado" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Ronda: </label>
-        <input type="text" name="ronda" class="form-control" />
+        <input type="text" name="ronda" class="form-control" value="@ronda" />
     </div>
     <div class="input-group my-2">
         @{

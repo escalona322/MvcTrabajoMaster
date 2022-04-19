@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model List<VistaSetFormateado>
+
+@foreach (VistaSetFormateado set in @Model)
+{
+    <div class="row my-3 border border-danger">
+        <div class="col my-3">
+            <span style="font-size: 1.20em; font-weight: bold; color:green">
+                Ronda: @set.Ronda
+            </span>
+        </div>
+        <div class="col my-3">
+
+            <span style="font-size: 1.20em; font-weight: bold">
+                | @set.Nick1 <span style="color:red; font-weight:bold">VS</span> @set.Nick2 |
+            </span>
+        </div>
+        <div class="col my-3">
+            <span style="font-size:1.20em; font-weight:bold; color: limegreen"> Ganador: @set.NickGanador</span>
+        </div>
+        <div class="col my-3">
+            <span style="font-size:1.20em; font-weight:bold">
+                | Resultado: @set.Resultado |
+            </span>
+        </div>
+        <div class="col my-3">
+            <a class="btn btn-outline-danger"
+               asp-controller="Apuntados"
+               asp-action="ListaApuntadosTorneo"
+               asp-route-idtorneo="@set.IdTorneo">
+                Volver
+            </a>
+
+        </div>
+    </div>
 }

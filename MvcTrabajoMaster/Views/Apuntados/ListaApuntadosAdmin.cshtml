@@ -1,0 +1,136 @@
+﻿@model List<VistaApuntadosTorneo>
+<div class="container">
+    <h1 class="text-center">
+        Lista apuntados admin
+    </h1>
+    <div class="row text-center">
+        <a asp-controller="Home"
+           asp-action="VistaAdmin"
+           class="btn btn-danger form-control">
+            Volver
+        </a>
+    </div>
+
+    @{
+        int num = 0;
+        double winrate = 0;
+    }
+    @foreach (VistaApuntadosTorneo vista in @Model)
+    {
+        @if (num % 2 == 0)
+        {
+
+            <div class="container">
+                <div class="row" style="background-color: lightsalmon">
+
+
+                    <div class="col my-3">
+                        @if (vista.Equipo != null)
+                        {
+                            <span style="color:dimgrey">@vista.Equipo | </span>
+                        }
+
+                        <span>@vista.Nick</span>
+                    </div>
+                    <div class="col my-3">
+                        Puesto: @vista.Puesto
+                    </div>
+                    <div class="col my-3">
+                        Record: @vista.Record
+                    </div>
+                    <div class="col my-3">
+                        Seed: @vista.Seed
+                    </div>
+                    <div class="col my-3">
+                        Torneo: @vista.IdTorneo
+                    </div>
+                    <div class="col">
+
+                        <a asp-controller="Apuntados"
+                           asp-action="EliminarApuntado"
+                           asp-route-idapuntado="@vista.IdApuntado"
+                           class="btn btn-secondary" style="width: 5em; height:2em">
+                            Eliminar
+                        </a>
+
+                        <a asp-controller="Apuntados"
+                           asp-action="EditarApuntado"
+                           asp-route-idapuntado="@vista.IdApuntado"
+                           class="btn btn-secondary" style="width: 5em; height:2em">
+                            Editar
+                        </a>
+                        <a asp-controller="Sets"
+                           asp-action="ListaSetsApuntadoAdmin"
+                           asp-route-idap="@vista.IdApuntado"
+                           class="btn btn-secondary" style="width: 5em; height:2em">
+                            Sets
+                        </a>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="container">
+                <div class="row " style="background-color: lightblue">
+
+
+                    <div class="col my-3">
+                        @if (vista.Equipo != null)
+                        {
+                            <span style="color:dimgrey">@vista.Equipo | </span>
+                        }
+
+                        <span>@vista.Nick</span>
+                    </div>
+                    <div class="col my-3">
+                        Puesto: @vista.Puesto
+                    </div>
+                    <div class="col my-3">
+                        Record: @vista.Record
+                    </div>
+                    <div class="col my-3">
+                        Seed: @vista.Seed
+                    </div>
+                    <div class="col my-3">
+                        Torneo: @vista.IdTorneo
+                    </div>
+                    <div class="col">
+
+
+                        <a asp-controller="Apuntados"
+                           asp-action="EliminarApuntado"
+                           asp-route-idapuntado="@vista.IdApuntado"
+                           class="btn btn-warning" style="width: 5em; height:2em">
+                            Eliminar
+                        </a>
+
+                        <a asp-controller="Apuntados"
+                           asp-action="EditarApuntado"
+                           asp-route-idapuntado="@vista.IdApuntado"
+                           class="btn btn-warning" style="width: 5em; height:2em">
+                            Editar
+                        </a>
+                        <a asp-controller="Sets"
+                           asp-action="ListaSetsApuntadoAdmin"
+                           asp-route-idapuntado="@vista.IdApuntado"
+                           class="btn btn-warning" style="width: 5em; height:2em">
+                            Sets
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        }
+        {
+            num += 1;
+        }
+    }
+
+</div>

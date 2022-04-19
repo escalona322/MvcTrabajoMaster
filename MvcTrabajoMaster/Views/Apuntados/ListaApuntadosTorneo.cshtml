@@ -1,1 +1,183 @@
-﻿
+﻿@model List<VistaApuntadosJugadores>
+<div class="container">
+    <h1 class="text-center">
+        Lista apuntados torneos
+    </h1>
+    @{
+        int idtorneo = (int)ViewData["IDTORNEO"];
+        int napuntados = (int)ViewData["NAPUNTADOS"];
+        int ultimapos = napuntados - 19;
+        int siguiente = (int)ViewData["SIGUIENTE"];
+        int anterior = (int)ViewData["ANTERIOR"];
+        int posicion = (int)ViewData["POSICION"];
+    }
+    <div class="row">
+        <div class="col-2">
+            <a asp-controller="Apuntados"
+               asp-action="ListaApuntadosTorneo"
+               asp-route-posicion="1"
+               asp-route-idtorneo="@idtorneo"
+               class="btn btn-danger">
+                <<
+            </a>
+        </div>
+        <div class="col-2">
+            <a asp-controller="Apuntados"
+               asp-action="ListaApuntadosTorneo"
+               asp-route-posicion="@anterior"
+               asp-route-idtorneo="@idtorneo"
+               class="btn btn-warning">
+                <
+            </a>
+        </div>
+        <div class="col-4">
+            <h3>
+                @posicion - @siguiente de @napuntados
+            </h3>
+        </div>
+        <div class="col-2">
+            <a asp-controller="Apuntados"
+               asp-action="ListaApuntadosTorneo"
+               asp-route-posicion="@siguiente"
+               asp-route-idtorneo="@idtorneo"
+               class="btn btn-warning mx-5">
+                >
+            </a>
+        </div>
+        <div class="col-2">
+            <a asp-controller="Apuntados"
+               asp-action="ListaApuntadosTorneo"
+               asp-route-posicion="@ultimapos"
+               asp-route-idtorneo="@idtorneo"
+               class="btn btn-success">
+                >>
+            </a>
+        </div>
+    </div>
+    @{
+        int num = 0;
+        double winrate = 0;
+    }
+    @foreach (VistaApuntadosJugadores vista in @Model)
+    {
+        {
+            if (vista.Record != "0")
+            {
+                char[] record;
+                record = vista.Record.ToCharArray();
+                string stringwins = record[0].ToString();
+                string stringloses = record[2].ToString();
+                double wins = Double.Parse(stringwins);
+                double loses = Double.Parse(stringloses);
+                double games = wins + loses;
+                winrate = (wins / games) * 100;
+                winrate = (Math.Round(winrate, 0));
+            }
+
+        }
+        @if (num % 2 == 0)
+        {
+
+            <div class="container">
+                <div class="row" style="background-color: lightsalmon">
+
+
+                    <div class="col my-3">
+                        @if (vista.Equipo != null)
+                        {
+                            <span style="color:dimgrey">@vista.Equipo | </span>
+                        }
+
+                        <span>@vista.Nick</span>
+                    </div>
+                    <div class="col my-3">
+                        Puesto: @vista.Puesto
+                    </div>
+                    <div class="col my-3">
+                        Record: @vista.Record
+                    </div>
+                    <div class="col my-3">
+                        Seed: @vista.Seed
+                    </div>
+                    <div class="col my-3">
+                        WinRate = @winrate%
+                    </div>
+                    <div class="col">
+
+                        <a asp-controller="Sets"
+                           asp-action="ListaSetsApuntado"
+                           asp-route-idap="@vista.IdApuntado"
+                           class="btn btn-secondary" style="width: 5em; height:2em">
+                            Sets
+                        </a>
+
+                        <a asp-controller="Jugadores"
+                           asp-action="PerfilJugador"
+                           asp-route-idjugador="@vista.IdJugador"
+                           class="btn btn-secondary" style="width: 5em; height:2em">
+                            Perfil
+                        </a>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="container">
+                <div class="row " style="background-color: lightblue">
+
+
+                    <div class="col my-3">
+                        @if (vista.Equipo != null)
+                        {
+                            <span style="color:dimgrey">@vista.Equipo | </span>
+                        }
+
+                        <span>@vista.Nick</span>
+                    </div>
+                    <div class="col my-3">
+                        Puesto: @vista.Puesto
+                    </div>
+                    <div class="col my-3">
+                        Record: @vista.Record
+                    </div>
+                    <div class="col my-3">
+                        Seed: @vista.Seed
+                    </div>
+                    <div class="col my-3">
+                        WinRate = @winrate%
+                    </div>
+                    <div class="col">
+
+                        <a asp-controller="Sets"
+                           asp-action="ListaSetsApuntado"
+                           asp-route-idap="@vista.IdApuntado"
+                           class="btn btn-warning" style="width: 5em; height:2em">
+                            Sets
+                        </a>
+
+                        <a asp-controller="Jugadores"
+                           asp-action="PerfilJugador"
+                           asp-route-idjugador="@vista.IdJugador"
+                           class="btn btn-warning" style="width: 5em; height:2em">
+                            Perfil
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        }
+        {
+            num += 1;
+        }
+    }
+
+</div>

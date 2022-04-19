@@ -1,22 +1,22 @@
 ﻿@model Torneo
 <h1>Editar Torneo</h1>
-<form method="post" class="form-group align-content-center">
-
+<form method="post" enctype="multipart/form-data" class="form-group align-content-center">
+    <input type="hidden" name="idtorneo" value="@Model.IdTorneo" />
     <div class="input-group my-2">
         <label class="input-group-text">Nombre: </label>
-        <input type="text" name="nombre" class="form-control" value="@Model.Nombre"/>
+        <input type="text" name="nombre" class="form-control" value="@Model.Nombre" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Region: </label>
-        <input type="text" name="region" class="form-control" value="@Model.Region"/>
+        <input type="text" name="region" class="form-control" value="@Model.Region" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Fecha: </label>
-        <input type="date" name="fecha" class="form-control" value="@Model.Fecha"/>
+        <input type="date" name="fecha" class="form-control" value="@Model.Fecha" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Máximos entrants: </label>
-        <input type="number" name="napuntados" class="form-control" value="@Model.Napuntados"/>
+        <input type="number" name="napuntados" class="form-control" value="@Model.Napuntados" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Descripcion: </label>
@@ -28,11 +28,15 @@
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Tipo: </label>
-        <input type="text" name="tipo" class="form-control" value="@Model.Tipo"/>
+        <input type="text" name="tipo" class="form-control" value="@Model.Tipo" />
     </div>
     <div class="input-group my-2">
         <label class="input-group-text">Link: </label>
-        <input type="text" name="link" class="form-control" value="@Model.Link"/>
+        <input type="text" name="link" class="form-control" value="@Model.Link" />
+    </div>
+    <div class="input-group my-2">
+        <label class="input-group-text">Foto: </label>
+        <input type="file" name="foto" class="form-control" />
     </div>
     <button type="submit" class="btn btn-outline-info form-control">
         Enviar
