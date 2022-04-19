@@ -1,0 +1,37 @@
+﻿@model List<VistaTorneo>
+
+<div class="row">
+    @foreach (VistaTorneo torneo in Model)
+    {
+        <div class="col-6">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h3 class="card-title">@torneo.Nombre Torneo: @torneo.Tipo  </h3>
+                    <h4> @torneo.Region</h4>
+                    <h5 class="card-text">Fecha: @torneo.Fecha</h5>
+                    <h5>Entrants: @torneo.Napuntados </h5>
+                    <a class="btn btn-primary"
+                       asp-controller="Torneos"
+                       asp-action="DetallesTorneo"
+                       asp-route-idtorneo="@torneo.IdTorneo">
+                        Detalles torneo
+                    </a>
+                    <a class="btn btn-primary"
+                       asp-controller="Torneos"
+                       asp-action="EditarTorneo"
+                       asp-route-idtorneo="@torneo.IdTorneo">
+                        Editar torneo
+                    </a><a class="btn btn-primary"
+                       asp-controller="Apuntados"
+                       asp-action="ListaTestVAp"
+                       asp-route-idtorneo="@torneo.IdTorneo">
+                       Ver apuntados
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
