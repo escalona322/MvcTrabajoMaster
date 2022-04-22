@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MvcTrabajoMaster.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NuggetModelsPryectoJalt;
 using System;
 using System.Collections.Generic;
@@ -107,7 +109,7 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Torneo/InsertTorneo";
+                string request = "/api/Torneos/InsertTorneo";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
@@ -125,7 +127,7 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Torneo/UpdateTorneo";
+                string request = "/api/Torneos/UpdateTorneo";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
@@ -152,7 +154,7 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Torneo/SumarApuntado/"+idtorneo;
+                string request = "/api/Torneos/SumarApuntado/"+idtorneo;
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
@@ -189,7 +191,7 @@ namespace MvcTrabajoMaster.Services
 
         public async Task<int> GetNApuntadosTorneoAsync(int idtorneo)
         {
-            string request = "/api/Torneos/GetNApuntadosTorneos/" + idtorneo;
+            string request = "/api/Torneos/GetNApuntadosTorneo/" + idtorneo;
             int napuntadostorneos =
                 await this.CallApiAsync<int>(request);
 
@@ -248,7 +250,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PutAsync(request, content);
             }
         }
         public async Task<int> GetSetMaxIdAsync()
@@ -325,20 +327,20 @@ namespace MvcTrabajoMaster.Services
             return apuntados;
         }
 
-        public async Task<List<VistaApuntadosJugadores>> GetVApuntadosByTorneoNoPagAsync(int idtorneo)
+        public async Task<List<VistaApuntadosTorneo>> GetVApuntadosByTorneoNoPagAsync(int idtorneo)
         {
-            string request = "/api/Apuntados/GetVApuntadosByTorneo/" + idtorneo;
-            List<VistaApuntadosJugadores> apuntados =
-                await this.CallApiAsync<List<VistaApuntadosJugadores>>(request);
+            string request = "/api/Apuntados/GetVApuntadosNoPagByTorneo/" + idtorneo;
+            List<VistaApuntadosTorneo> apuntados =
+                await this.CallApiAsync<List<VistaApuntadosTorneo>>(request);
 
             return apuntados;
         }
 
-        public async Task<List<VistaApuntadosJugadores>> GetVApuntadosAsync()
+        public async Task<List<VistaApuntadosTorneo>> GetVApuntadosAsync()
         {
             string request = "/api/Apuntados/GetVApuntados";
-            List<VistaApuntadosJugadores> apuntados =
-                await this.CallApiAsync<List<VistaApuntadosJugadores>>(request);
+            List<VistaApuntadosTorneo> apuntados =
+                await this.CallApiAsync<List<VistaApuntadosTorneo>>(request);
 
             return apuntados;
         }
@@ -351,7 +353,7 @@ namespace MvcTrabajoMaster.Services
             return apuntado;
         }
 
-        public async Task InsertApuntadoAsync(Apuntado apuntado)
+        public async Task InsertApuntadoAsync(Apuntado apuntado, string token)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -359,6 +361,7 @@ namespace MvcTrabajoMaster.Services
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
+                client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
 
                 string json = JsonConvert.SerializeObject(apuntado);
 
@@ -401,7 +404,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PutAsync(request, content);
             }
         }
 
@@ -442,12 +445,19 @@ namespace MvcTrabajoMaster.Services
 
             return jugadores;
         }
+        public async Task<int> GetJugadorMaxIdAsync()
+        {
+            string request = "/api/Jugadores/GetMaxId/";
+            int MaxIdJugador =
+                await this.CallApiAsync<int>(request);
 
-        public async Task DeleteJugador(int idjugador)
+            return MaxIdJugador;
+        }
+        public async Task DeleteJugadorAsync(int idjugador)
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Apuntados/DeleteApuntado/"+idjugador;
+                string request = "/api/Jugadores/DeleteJugador/"+idjugador;
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
@@ -470,15 +480,15 @@ namespace MvcTrabajoMaster.Services
             return jugador;
         }
 
-        public async Task InsertJugador(Jugador jugador)
+        public async Task InsertJugadorAsync(Jugador jugador)
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Jugador/InsertJugador";
+                string request = "/api/Jugadores/InsertJugador";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
-                client.DefaultRequestHeaders.Add("Authorization", "bearer ");
+              
 
                 string json = JsonConvert.SerializeObject(jugador);
 
@@ -489,22 +499,22 @@ namespace MvcTrabajoMaster.Services
             }
         }
 
-        public async Task UpdateJugador(Jugador jugador)
+        public async Task UpdateJugadorAsync(Jugador jugador)
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "/api/Jugador/UpdateJugador";
+                string request = "/api/Jugadores/UpdateJugador";
                 client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
-                client.DefaultRequestHeaders.Add("Authorization", "bearer ");
+              
 
                 string json = JsonConvert.SerializeObject(jugador);
 
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PutAsync(request, content);
             }
         }
 
@@ -518,6 +528,49 @@ namespace MvcTrabajoMaster.Services
         }
         #endregion
 
+        #region MetodosSeguridad
+        public async Task<string> GetTokenAsync(string username, string password)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = this.UriApi;
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                LoginModel model = new LoginModel
+                {
+                    UserName = username,
+                    Password = password
+                };
+
+                string json = JsonConvert.SerializeObject(model);
+
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                string request = "/Auth/Login";
+
+                HttpResponseMessage response = await client.PostAsync(request, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string data = await response.Content.ReadAsStringAsync();
+                    JObject jObject = JObject.Parse(data);
+                    string token = jObject.GetValue("response").ToString();
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public async Task<Jugador> GetPerfilUsuario(string token)
+        {
+            string request = "/api/Jugadores/PerfilJugador";
+            Jugador usu = await this.CallApiAsync<Jugador>(request, token);
+            return usu;
+        }
+        #endregion  
 
     }
 }

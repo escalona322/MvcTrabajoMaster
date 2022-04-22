@@ -11,8 +11,4 @@
     <PackageReference Include="NuggetModelsPryectoJalt" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Managed\" />
-  </ItemGroup>
-
 </Project>

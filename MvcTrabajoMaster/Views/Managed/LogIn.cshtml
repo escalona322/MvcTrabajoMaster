@@ -1,0 +1,41 @@
+﻿<div class="container border border-dark" style="background-color: lightblue">
+
+    <h1 class="text-center" style="color:purple">
+        Log In Jugador
+    </h1>
+    <div class="text-center">
+        <img src="https://storagetajamarjalt.blob.core.windows.net/torneos/logo.png" />
+    </div>
+    <form method="post">
+        <div class="input-group my-2">
+            <label class="input-group-text">Email</label>
+            <input type="text" name="username" class="form-control" />
+        </div>
+
+        <div class="input-group my-2">
+            <label class="input-group-text">Password</label>
+            <input type="text" name="password" class="form-control" />
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-info" type="submit">
+                Log In
+            </button>
+        </div>
+
+    </form>
+    <div>
+        No tienes cuenta? <a asp-controller="Jugadores"
+                             asp-action="NuevoJugador">
+            Registrarse
+
+        </a>
+    </div>
+    <h1 class="text-center" style="color:red">
+        @ViewData["MENSAJE"]
+    </h1>
+</div>
+
+
+
+

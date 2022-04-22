@@ -28,6 +28,11 @@ namespace MvcTrabajoMaster.Controllers
             return View();
         }
 
+        public IActionResult VistaAdmin()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

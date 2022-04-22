@@ -24,57 +24,46 @@ namespace MvcTrabajoMaster.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> LogIn(string email, string password)
+        public async Task<IActionResult> LogIn(string username, string password)
         {
-            Jugador jug =
-                this.repo.ExisteJugador(email, password);
-            if (jug != null)
+            string token =
+            await this.service.GetTokenAsync(username, password);
+            if (token == null)
             {
-                ClaimsIdentity identity =
-                new ClaimsIdentity
-                (CookieAuthenticationDefaults.AuthenticationScheme
-                , ClaimTypes.Name, ClaimTypes.Role);
-                Claim claimName = new Claim(ClaimTypes.Name, jug.Email);
-                identity.AddClaim(claimName);
-                Claim claimId = new Claim
-                    (ClaimTypes.NameIdentifier, jug.IdJugador.ToString());
-                Claim claimRole = new Claim
-                    (ClaimTypes.Role, jug.Rol);
-                Claim claimRegion = new Claim
-                    ("Region", jug.Region);
-                identity.AddClaim(claimId);
-                identity.AddClaim(claimRole);
-                identity.AddClaim(claimRegion);
-                ClaimsPrincipal userPrincipal =
-                new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync
-                (CookieAuthenticationDefaults.AuthenticationScheme
-                , userPrincipal);
-                string controller = HttpContext.Request.Cookies["controller"];
-                string action = HttpContext.Request.Cookies["action"];
-                HttpContext.Session.SetString("Rol", jug.Rol);
-
-
-                return RedirectToAction(action, controller);
-
+                ViewData["MENSAJE"] = "Usuario/Password incorrectos";
+                return View();
             }
             else
             {
-                ViewData["MENSAJE"] = "Usuario/Password incorrectos";
+                //SI EL USUARIO EXISTE, ALMACENAMOS EL TOKEN EN SESSION
+                Jugador usu = await this.service.GetPerfilUsuario(token);
+                ClaimsIdentity identity =
+                new ClaimsIdentity
+                (CookieAuthenticationDefaults.AuthenticationScheme
+                , ClaimTypes.Name, ClaimTypes.NameIdentifier);
+                identity.AddClaim(new Claim(ClaimTypes.Name, usu.Nick.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usu.IdJugador.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Role, usu.Rol.ToString()));
+                identity.AddClaim(new Claim("TOKEN", token));
+                ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync
+                (CookieAuthenticationDefaults.AuthenticationScheme
+                , principal, new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
+                });
+                return RedirectToAction("Index", "Home");
             }
-            return View();
-
-        }
-        public IActionResult ErrorAcceso()
-        {
-            return View();
         }
 
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync
             (CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("TOKEN");
             return RedirectToAction("Index", "Home");
         }
     }

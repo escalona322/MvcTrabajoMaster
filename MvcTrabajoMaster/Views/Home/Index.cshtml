@@ -2,7 +2,36 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="text-center my-5">
+        <h1>Página de Inicio</h1>
+    </div>
+
+
+    <div class="row">
+        <div class="col" style="background-color: lightcoral">
+            <h2 style="color:blue">¿En que consiste la página?</h2>
+            <p style="font-weight:bold">
+                Se trata de una pagina dedicada a guardar
+                datos de torneos y de los jugadores que se apuntan.
+                Es necesario crearse una cuenta para acceder a la mayoria
+                del contenido.
+            </p>
+            <span>
+                Si no tienes una cuenta, pincha aqui:
+            </span>
+            <a class="btn btn-info" asp-area=""
+               asp-controller="Jugadores"
+               asp-action="NuevoJugador">
+                Crear Cuenta
+            </a>
+
+        </div>
+        <div class="col">
+            <h2>Ejemplo perfil de usuario:</h2>
+            <img src="https://storagetajamarjalt.blob.core.windows.net/torneos/perfil.png" height="400" width="600" />
+        </div>
+    </div>
+
+
 </div>

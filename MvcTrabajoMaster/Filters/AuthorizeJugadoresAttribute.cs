@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,10 @@ using System.Web.Http;
 
 namespace MvcTrabajoMaster.Filters
 {
-    public class AuthorizeUsuariosAttribute : AuthorizeAttribute
-    , IAuthorizationFilter
+    public class AuthorizeJugadoresAttribute : AuthorizeAttribute,
+          IAuthorizationFilter
     {
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.User;
@@ -20,7 +22,7 @@ namespace MvcTrabajoMaster.Filters
                 RouteValueDictionary routeLogin =
                 new RouteValueDictionary(new
                 {
-                    controller = "Manage",
+                    controller = "Managed",
                     action = "LogIn"
                 });
                 RedirectToRouteResult result =
@@ -29,4 +31,5 @@ namespace MvcTrabajoMaster.Filters
             }
         }
     }
+
 }

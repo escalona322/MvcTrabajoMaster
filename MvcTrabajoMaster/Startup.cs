@@ -1,9 +1,12 @@
+using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MvcTrabajoMaster.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,35 @@ namespace MvcTrabajoMaster
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            string urlApi = this.Configuration.GetValue<string>("UrlApis:ApiTorneos");
+            ServiceApiTorneos serviceTorneos = new ServiceApiTorneos(urlApi);
+            services.AddTransient<ServiceApiTorneos>(x => serviceTorneos);
+
+            string azureKeys =
+                 this.Configuration.GetConnectionString("AzureStorageKeys");
+            BlobServiceClient blobServiceClient =
+            new BlobServiceClient(azureKeys);
+            services.AddTransient<BlobServiceClient>
+            (x => blobServiceClient);
+            services.AddTransient<ServiceStorageBlobs>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme =
+                CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme =
+                CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
+            services.AddControllersWithViews(options => options.EnableEndpointRouting = false); ;
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,14 +74,15 @@ namespace MvcTrabajoMaster
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseSession();
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcTrabajoMaster.Services;
+using NuggetModelsPryectoJalt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,38 +22,73 @@ namespace MvcTrabajoMaster.Controllers
             return View();
         }
 
-        public IActionResult EditarSet(int idset, int idtorneo)
+        public async Task<IActionResult> EditarSet(int idset, int idtorneo)
         {
-         
+            Set setEditar = await this.service.GetSetByIdAsync(idset);
+            List<VistaApuntadosTorneo> apuntados = await this.service.GetVApuntadosByTorneoNoPagAsync(idtorneo);
+            ViewData["RONDA"] = setEditar.Ronda;
+            ViewData["RESULTADO"] = setEditar.Resultado;
+            ViewData["IDTORNEO"] = idtorneo;
+            return View(apuntados);
         }
         [HttpPost]
-        public IActionResult EditarSet(int idset, int ap1,
+        public async Task<IActionResult> EditarSet(int idset, int ap1,
             int ap2, int apganador, string resultado,
             string ronda, int idtorneo)
         {
-         
+            Set set = new Set()
+            {
+                IdSet = idset,
+                IdApuntado1 = ap1,
+                IdApuntado2 = ap2,
+                Ganador = apganador,
+                Resultado = resultado,
+                Ronda = ronda,
+                IdTorneo = idtorneo
+            };
+            await this.service.UpdateSetAsync(set);
+            return RedirectToAction("ListaSetsApuntadoAdmin",
+                new { idap = apganador }
+               );
         }
 
-        public IActionResult NuevoSet(int idtorneo)
+        public async Task<IActionResult> NuevoSet(int idtorneo)
         {
-          
+            ViewData["IDTORNEO"] = idtorneo;
+            List<VistaApuntadosTorneo> apuntados = await this.service.GetVApuntadosByTorneoNoPagAsync(idtorneo);
+            return View(apuntados);
         }
 
         [HttpPost]
-        public IActionResult NuevoSet(int ap1, int ap2,
+        public async Task<IActionResult> NuevoSet(int ap1, int ap2,
             int apganador, string resultado, string ronda,
             int idtorneo)
         {
-          
+            int idsetMax = await this.service.GetSetMaxIdAsync();
+            Set set = new Set()
+            {
+                IdSet = idsetMax,
+                IdApuntado1 = ap1,
+                IdApuntado2 = ap2,
+                Ganador = apganador,
+                Resultado = resultado,
+                Ronda = ronda,
+                IdTorneo = idtorneo
+            };
+            return RedirectToAction("ListaSetsApuntado",
+                 new { idap = apganador }
+                );
         }
 
-        public IActionResult ListaSetsApuntado(int idap)
+        public async Task<IActionResult> ListaSetsApuntado(int idap)
         {
-        
+            List<VistaSetFormateado> vistaSets = await this.service.GetSetsFormatByIdApuntadoAsync(idap);
+            return View(vistaSets);
         }
-        public IActionResult ListaSetsApuntadoAdmin(int idap)
+        public async Task<IActionResult> ListaSetsApuntadoAdmin(int idap)
         {
-     
+            List<VistaSetFormateado> vistaSets = await this.service.GetSetsFormatByIdApuntadoAsync(idap);
+            return View(vistaSets);
         }
     }
 }
