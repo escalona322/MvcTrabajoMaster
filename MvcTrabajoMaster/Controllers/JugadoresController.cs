@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using MvcTrabajoMaster.Filters;
+using MvcTrabajoMaster.Models;
 using MvcTrabajoMaster.Services;
 using NuggetModelsPryectoJalt;
 using System;
@@ -18,63 +20,22 @@ namespace MvcTrabajoMaster.Controllers
         {
             this.service = service;
         }
-        public async Task<IActionResult> ListaJugadores(int? posicion)
+        public async Task<IActionResult> ListaJugadores()
         {
-            if (posicion == null)
-            {
-                posicion = 1;
-            }
-
-
-            int NJugadores = await this.service.GetNJugadoresAsync();
-            ViewData["NJUGADORES"] = NJugadores;
-            int siguiente = posicion.Value + 25;
-            int anterior = posicion.Value - 25;
-            if (siguiente >= NJugadores)
-            {
-                siguiente = NJugadores;
-            }
-            if (anterior < 1)
-            {
-                anterior = 1;
-            }
-            ViewData["POSICION"] = posicion;
-            ViewData["SIGUIENTE"] = siguiente;
-            ViewData["ANTERIOR"] = anterior;
-            List<VistaJugadores> Jugadores = await this.service.GetVistaJugadoresAsync(posicion.Value);
+        
+            List<Jugador> Jugadores = await this.service.GetJugadoresAsync();
             return View(Jugadores);
         }
 
         public async Task<IActionResult> ListaJugadoresAdmin(int? posicion)
         {
-            if (posicion == null)
-            {
-                posicion = 1;
-            }
-
-
-            int NJugadores = await this.service.GetNJugadoresAsync();
-            ViewData["NJUGADORES"] = NJugadores;
-            int siguiente = posicion.Value + 25;
-            int anterior = posicion.Value - 25;
-            if (siguiente >= NJugadores)
-            {
-                siguiente = NJugadores;
-            }
-            if (anterior < 1)
-            {
-                anterior = 1;
-            }
-            ViewData["POSICION"] = posicion;
-            ViewData["SIGUIENTE"] = siguiente;
-            ViewData["ANTERIOR"] = anterior;
-            List<VistaJugadores> Jugadores = await this.service.GetVistaJugadoresAsync(posicion.Value);
+            List<Jugador> Jugadores = await this.service.GetJugadoresAsync();
             return View(Jugadores);
         }
 
         public async Task<IActionResult> PerfilJugador(int idjugador)
         {
-            List<Torneo> TorneosJugador = await this.service.GetTorneosByIdJugadorAsync(idjugador);
+            List<VistaTorneoJugador> TorneosJugador = await this.service.GetTorneosByIdJugadorAsync(idjugador);
             List<VistaSetFormateado> Sets = await this.service.GetSetsFormatByIdJugadorAsync(idjugador);
             Jugador jug = await this.service.GetJugadorByIdAsync(idjugador);
             ViewData["SETS"] = Sets;
@@ -101,7 +62,7 @@ namespace MvcTrabajoMaster.Controllers
         public async Task<IActionResult> MiPerfil()
         {
             int idjugador = int.Parse(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            List<Torneo> TorneosJugador = await this.service.GetTorneosByIdJugadorAsync(idjugador);
+            List<VistaTorneoJugador> TorneosJugador = await this.service.GetTorneosByIdJugadorAsync(idjugador);
             List<VistaSetFormateado> Sets = await this.service.GetSetsFormatByIdJugadorAsync(idjugador);
 
             Jugador jug = await this.service.GetJugadorByIdAsync(idjugador);

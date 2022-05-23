@@ -1,64 +1,14 @@
-﻿@model List<VistaApuntadosJugadores>
+﻿@model List<VistaApuntadosTorneo>
 <div class="container">
     <h1 class="text-center">
         Lista apuntados torneos
     </h1>
-    @{
-        int idtorneo = (int)ViewData["IDTORNEO"];
-        int napuntados = (int)ViewData["NAPUNTADOS"];
-        int ultimapos = napuntados - 19;
-        int siguiente = (int)ViewData["SIGUIENTE"];
-        int anterior = (int)ViewData["ANTERIOR"];
-        int posicion = (int)ViewData["POSICION"];
-    }
-    <div class="row">
-        <div class="col-2">
-            <a asp-controller="Apuntados"
-               asp-action="ListaApuntadosTorneo"
-               asp-route-posicion="1"
-               asp-route-idtorneo="@idtorneo"
-               class="btn btn-danger">
-                <<
-            </a>
-        </div>
-        <div class="col-2">
-            <a asp-controller="Apuntados"
-               asp-action="ListaApuntadosTorneo"
-               asp-route-posicion="@anterior"
-               asp-route-idtorneo="@idtorneo"
-               class="btn btn-warning">
-                <
-            </a>
-        </div>
-        <div class="col-4">
-            <h3>
-                @posicion - @siguiente de @napuntados
-            </h3>
-        </div>
-        <div class="col-2">
-            <a asp-controller="Apuntados"
-               asp-action="ListaApuntadosTorneo"
-               asp-route-posicion="@siguiente"
-               asp-route-idtorneo="@idtorneo"
-               class="btn btn-warning mx-5">
-                >
-            </a>
-        </div>
-        <div class="col-2">
-            <a asp-controller="Apuntados"
-               asp-action="ListaApuntadosTorneo"
-               asp-route-posicion="@ultimapos"
-               asp-route-idtorneo="@idtorneo"
-               class="btn btn-success">
-                >>
-            </a>
-        </div>
-    </div>
+   
     @{
         int num = 0;
         double winrate = 0;
     }
-    @foreach (VistaApuntadosJugadores vista in @Model)
+    @foreach (VistaApuntadosTorneo vista in @Model)
     {
         {
             if (vista.Record != "0")

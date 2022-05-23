@@ -1,3 +1,4 @@
+using Amazon.S3;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -32,12 +33,8 @@ namespace MvcTrabajoMaster
 
             string azureKeys =
                  this.Configuration.GetConnectionString("AzureStorageKeys");
-            BlobServiceClient blobServiceClient =
-            new BlobServiceClient(azureKeys);
-            services.AddTransient<BlobServiceClient>
-            (x => blobServiceClient);
-            services.AddTransient<ServiceStorageBlobs>();
-
+            services.AddAWSService<IAmazonS3>();
+            services.AddTransient<ServiceStorageS3>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

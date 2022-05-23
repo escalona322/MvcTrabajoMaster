@@ -42,8 +42,8 @@ namespace MvcTrabajoMaster.Controllers
             ViewData["SIGUIENTE"] = siguiente;
             ViewData["ANTERIOR"] = anterior;
             ViewData["POSICION"] = posicion;
-            List<VistaApuntadosJugadores> apuntados = 
-                await this.service.GetVApuntadosByTorneoAsync(idtorneo, posicion.Value);
+            List<VistaApuntadosTorneo> apuntados = 
+                await this.service.GetVApuntadosByTorneoNoPagAsync(idtorneo);
 
             return View(apuntados);
 

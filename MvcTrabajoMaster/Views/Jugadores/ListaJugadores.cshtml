@@ -1,53 +1,6 @@
-﻿@model List<VistaJugadores>
-@{
+﻿@model List<Jugador>
 
-    int napuntados = (int)ViewData["NJUGADORES"];
-    int ultimapos = napuntados - 24;
-    int siguiente = (int)ViewData["SIGUIENTE"];
-    int anterior = (int)ViewData["ANTERIOR"];
-    int posicion = (int)ViewData["POSICION"];
-}
-<div class="row">
-    <div class="col-2">
-        <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
-           asp-route-posicion="1"
-           class="btn btn-danger">
-            <<
-        </a>
-    </div>
-    <div class="col-2">
-        <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
-           asp-route-posicion="@anterior"
-           class="btn btn-warning">
-            <
-        </a>
-    </div>
-    <div class="col-4">
-        <h3>
-            @posicion - @siguiente de @napuntados
-        </h3>
-    </div>
-    <div class="col-2">
-        <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
-           asp-route-posicion="@siguiente"
-           class="btn btn-warning mx-5">
-            >
-        </a>
-    </div>
-    <div class="col-2">
-        <a asp-controller="Jugadores"
-           asp-action="ListaJugadores"
-           asp-route-posicion="@ultimapos"
-           class="btn btn-success">
-            >>
-        </a>
-    </div>
-</div>
-
-@foreach (VistaJugadores jug in @Model)
+@foreach (Jugador jug in @Model)
 {
     <div class="row my-3 border border-danger">
         <div class="col my-3">

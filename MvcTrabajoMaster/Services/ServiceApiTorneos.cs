@@ -1,4 +1,5 @@
-﻿using MvcTrabajoMaster.Models;
+﻿
+using MvcTrabajoMaster.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuggetModelsPryectoJalt;
@@ -28,11 +29,11 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 HttpResponseMessage response =
-                    await client.GetAsync(request);
+                    await client.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -51,12 +52,12 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
                 HttpResponseMessage response =
-                    await client.GetAsync(request);
+                    await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
                     T data = await response.Content.ReadAsAsync<T>();
@@ -110,7 +111,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Torneos/InsertTorneo";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -119,7 +120,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PostAsync(url, content);
             }
         }
 
@@ -128,7 +129,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Torneos/UpdateTorneo";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -137,7 +138,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PutAsync(request, content);
+                    await client.PutAsync(url, content);
             }
         }
 
@@ -155,7 +156,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Torneos/SumarApuntado/"+idtorneo;
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -164,7 +165,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PutAsync(request, content);
+                    await client.PutAsync(url, content);
             }
         }
 
@@ -173,18 +174,18 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Torneos/DeleteTorneo/" + idtorneo;
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 HttpResponseMessage response =
-                    await client.DeleteAsync(request);
+                    await client.DeleteAsync(url);
             }
         }
-        public async Task<List<Torneo>> GetTorneosByIdJugadorAsync(int idjugador)
+        public async Task<List<VistaTorneoJugador>> GetTorneosByIdJugadorAsync(int idjugador)
         {
             string request = "/api/Torneos/GetTorneosByJugador/" + idjugador;
-            List<Torneo> torneos =
-                await this.CallApiAsync<List<Torneo>>(request);
+            List<VistaTorneoJugador> torneos =
+                await this.CallApiAsync<List<VistaTorneoJugador>>(request);
 
             return torneos;
         }
@@ -358,7 +359,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Apuntados/InsertApuntado";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 client.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
@@ -368,7 +369,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PostAsync(url, content);
             }
         }
 
@@ -377,7 +378,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Apuntados/DeleteApuntado/"+idinscripcion;
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -386,7 +387,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.DeleteAsync(request);
+                    await client.DeleteAsync(url);
             }
         }
 
@@ -395,7 +396,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Apuntados/UpdateApuntado";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -404,7 +405,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PutAsync(request, content);
+                    await client.PutAsync(url, content);
             }
         }
 
@@ -458,7 +459,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Jugadores/DeleteJugador/"+idjugador;
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
 
@@ -467,7 +468,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.DeleteAsync(request);
+                    await client.DeleteAsync(url);
             }
         }
 
@@ -485,7 +486,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Jugadores/InsertJugador";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
               
@@ -495,7 +496,7 @@ namespace MvcTrabajoMaster.Services
                 StringContent content = new StringContent
                     (json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response =
-                    await client.PostAsync(request, content);
+                    await client.PostAsync(url, content);
             }
         }
 
@@ -504,7 +505,7 @@ namespace MvcTrabajoMaster.Services
             using (HttpClient client = new HttpClient())
             {
                 string request = "/api/Jugadores/UpdateJugador";
-                client.BaseAddress = this.UriApi;
+                string url = this.UriApi + request;
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
               
@@ -533,7 +534,6 @@ namespace MvcTrabajoMaster.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = this.UriApi;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
                 LoginModel model = new LoginModel
@@ -548,7 +548,9 @@ namespace MvcTrabajoMaster.Services
 
                 string request = "/Auth/Login";
 
-                HttpResponseMessage response = await client.PostAsync(request, content);
+                string url = this.UriApi + request;
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {

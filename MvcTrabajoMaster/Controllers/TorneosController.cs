@@ -15,12 +15,12 @@ namespace MvcTrabajoMaster.Controllers
     {
 
         private ServiceApiTorneos service;
-        private ServiceStorageBlobs serviceBlobs;
-
-        public TorneosController(ServiceApiTorneos service, ServiceStorageBlobs serviceBlobs)
+ 
+        private ServiceStorageS3 serviceS3;
+        public TorneosController(ServiceApiTorneos service, ServiceStorageS3 serviceS3)
         {
             this.service = service;
-            this.serviceBlobs = serviceBlobs;
+            this.serviceS3 = serviceS3;
         }
         [AuthorizeJugadores]
         public async Task<IActionResult> ListaTorneos(int? posicion)
@@ -94,14 +94,14 @@ namespace MvcTrabajoMaster.Controllers
             DateTime fecha, int napuntados, string descripcion,
             string normas, string tipo, string link, IFormFile foto)
         {
-            int idtorneoMax = await this.service.GetTorneoMaxIdAsync();
+            int idtorneoMax = await this.service.GetTorneoMaxIdAsync()+1;
 
 
-            string containerName = "torneos";
-            string blobName = foto.FileName;
+           
+            string nombreFile = foto.FileName;
             using (Stream stream = foto.OpenReadStream())
             {
-                await this.serviceBlobs.UploadBlobAsync(containerName, blobName, stream);
+                await this.serviceS3.UploadFileAsync(stream, nombreFile);
             }
             Torneo torneo = new Torneo()
             {
@@ -114,7 +114,7 @@ namespace MvcTrabajoMaster.Controllers
                 Normas = normas,
                 Tipo = tipo,
                 Link = link,
-                Foto = blobName
+                Foto = nombreFile
             };
 
            await this.service.InsertTorneoAsync(torneo);
@@ -141,10 +141,26 @@ namespace MvcTrabajoMaster.Controllers
             string link, IFormFile foto)
        {
 
-            //string path = await this.helperUpload.UploadFileAsync(foto, Folders.Images);
-            //this.repo.UpdateTorneo(idtorneo, nombre,
-            //region, fecha, napuntados, descripcion,
-            //normas, tipo, link, path);
+
+            string nombreFile = foto.FileName;
+            using (Stream stream = foto.OpenReadStream())
+            {
+                await this.serviceS3.UploadFileAsync(stream, nombreFile);
+            }
+            Torneo torneo = new Torneo()
+            {
+                IdTorneo = idtorneo,
+                Nombre = nombre,
+                Region = region,
+                Fecha = fecha,
+                Napuntados = napuntados,
+                Descripcion = descripcion,
+                Normas = normas,
+                Tipo = tipo,
+                Link = link,
+                Foto = nombreFile
+            };
+            await this.service.UpdateTorneoAsync(torneo);
 
             return RedirectToAction("ListaTorneos");
         }

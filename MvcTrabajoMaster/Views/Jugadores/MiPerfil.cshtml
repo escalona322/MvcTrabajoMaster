@@ -1,7 +1,7 @@
 ﻿@model Jugador
 @{
-    List<Torneo> torneos = new List<Torneo>();
-    foreach (Torneo torneo in (IEnumerable<Torneo>)ViewData["TORNEOS"])
+    List<VistaTorneoJugador> torneos = new List<VistaTorneoJugador>();
+    foreach (VistaTorneoJugador torneo in (IEnumerable<VistaTorneoJugador>)ViewData["TORNEOS"])
     {
         torneos.Add(torneo);
     }
@@ -159,7 +159,7 @@
                         <h1 class="text-center"> TORNEOS</h1>
                     </div>
 
-                    @foreach (Torneo tor in torneos)
+                    @foreach (VistaTorneoJugador tor in torneos)
                     {
                         if (cont % 2 == 0)
                         {
